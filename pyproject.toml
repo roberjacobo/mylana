@@ -17,3 +17,4 @@ packages = ["src/mylana"]
 
 [project.scripts]
 mylana = "mylana.main:run"
+run_crew = "mylana.main:run"
