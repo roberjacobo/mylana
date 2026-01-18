@@ -1901,6 +1901,7 @@ dependencies = [
     { name = "langchain-community" },
     { name = "litellm", extra = ["proxy"] },
     { name = "python-dotenv" },
+    { name = "requests" },
 ]
 
 [package.metadata]
@@ -1912,6 +1913,7 @@ requires-dist = [
     { name = "langchain-community", specifier = ">=0.4.1" },
     { name = "litellm", extras = ["proxy"], specifier = ">=1.75.3" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
+    { name = "requests", specifier = ">=2.31.0" },
 ]
 
 [[package]]

@@ -1,12 +1,19 @@
+import os
 from crewai import Agent, Crew, Process, Task
 from crewai.llm import LLM
 from crewai.project import CrewBase, agent, crew, task
 from dotenv import load_dotenv
-from mylana.tools.duckduckGoSearch_tool import SearchTool
+from mylana.tools.exchange_rate_tool import ExchangeRateTool
 
 load_dotenv()
 
-deepseek = LLM(model="ollama/deepseek-r1:latest", base_url="http://localhost:11434")
+llm_model = os.getenv('LLM')
+base_url = os.getenv('BASE_OLLAMA_URL')
+
+if not llm_model or not base_url:
+    raise ValueError("Missing required environmet variables: llm_model or base_url")
+
+llm = LLM(model=llm_model, base_url=base_url)
 
 @CrewBase
 class CurrencyAuditCrew():
@@ -20,8 +27,8 @@ class CurrencyAuditCrew():
         return Agent(
             config=self.agents_config['currency_reporter'], # type: ignore
             verbose=True,
-            llm = deepseek,
-            tools=[SearchTool()]
+            llm = llm,
+            tools=[ExchangeRateTool()]
         )
 
     @task

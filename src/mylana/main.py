@@ -1,7 +1,13 @@
+import os
 import sys
 import warnings
 from datetime import datetime
 from mylana.crew import CurrencyAuditCrew
+from dotenv import load_dotenv
+
+load_dotenv()
+
+AMOUNT = os.getenv('AMOUNT')
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -14,7 +20,7 @@ def run():
     formatted_date = now.strftime("%Y-%m-%d %H:%M:%S")
 
     inputs = {
-        'amount_received': '3000',
+        'amount_received': AMOUNT,
         'currency': 'USD',
         'current_date': formatted_date
     }

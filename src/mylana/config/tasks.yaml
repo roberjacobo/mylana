@@ -1,9 +1,11 @@
 get_rate_task:
   description: >
-    1. Search Google/DuckDuckGo for "1 USD to MXN rate".
-    2. Extract the numeric exchange rate (e.g., 20.50) and the date associated with it.
-    3. Do NOT search for bank comparisons or commissions this time. Focus ONLY on the market rate.
-    4. Provide the answer immediately.
+    Use the Exchange Rate API tool to get the current USD to MXN exchange rate.
+    Simply call the tool with base_currency="USD" and target_currency="MXN".
+    The tool will return real-time data with the exact rate and timestamp.
+    Extract the exchange rate number from the tool's output.
   expected_output: >
-    A single line string in this format: "Date: [Date Found] | Rate: [Number] MXN"
+    A single line with the current exchange rate in this exact format:
+    "Date: YYYY-MM-DD | Rate: [Number] MXN per 1 USD"
+    Example: "Date: 2024-01-15 | Rate: 17.65 MXN per 1 USD"
   agent: currency_reporter
