@@ -1,55 +1,46 @@
 from crewai import Agent, Crew, Process, Task
+from crewai.llm import LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
-from typing import List
+from typing import List, Dict, Any
+from dotenv import load_dotenv
+
+load_dotenv()
+
+deepseek = LLM(model="deepseek-r1:latest", base_url="http://localhost:11434")
 
 @CrewBase
-class LatestAiDevelopment():
-    """LatestAiDevelopment crew"""
+class CurrencyAuditCrew():
+    """Crew for auditing USD/MXN exchange rates and payments"""
 
-    agents: List[BaseAgent]
-    tasks: List[Task]
-
-    @agent
-    def researcher(self) -> Agent:
-        return Agent(
-            config=self.agents_config['researcher'], # type: ignore[index]
-            verbose=True
-        )
+    # Define path constants to help the decorator and the linter
+    agents_config = 'config/agents.yaml'
+    tasks_config = 'config/tasks.yaml'
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def financial_analyst(self) -> Agent:
+        """Expert in currency exchange and banking fees"""
         return Agent(
-            config=self.agents_config['reporting_analyst'], # type: ignore[index]
-            verbose=True
-        )
-
-    # To learn more about structured task outputs,
-    # task dependencies, and task callbacks, check out the documentation:
-    # https://docs.crewai.com/concepts/tasks#overview-of-a-task
-    @task
-    def research_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['research_task'], # type: ignore[index]
+            config=self.agents_config['financial_analyst'], # type: ignore
+            verbose=True,
+            llm = deepseek
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def currency_audit_task(self) -> Task:
+        """Task to analyze rates and explain transaction costs"""
         return Task(
-            config=self.tasks_config['reporting_task'], # type: ignore[index]
-            output_file='report.md'
+            config=self.tasks_config['currency_audit_task'], # type: ignore
         )
 
     @crew
     def crew(self) -> Crew:
-        """Creates the LatestAiDevelopment crew"""
-        # To learn how to add knowledge sources to your crew, check out the documentation:
-        # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
+        """Creates the CurrencyAuditCrew"""
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
+            agents=self.agents, # type: ignore
+            tasks=self.tasks,   # type: ignore
             process=Process.sequential,
             verbose=True,
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
+            tracing=True,
+            planning=False
         )

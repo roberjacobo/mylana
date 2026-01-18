@@ -1145,10 +1145,14 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "crewai" },
+    { name = "python-dotenv" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "crewai" }]
+requires-dist = [
+    { name = "crewai" },
+    { name = "python-dotenv", specifier = ">=1.1.1" },
+]
 
 [[package]]
 name = "nodeenv"
