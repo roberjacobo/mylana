@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-deepseek = LLM(model="deepseek-r1:latest", base_url="http://localhost:11434")
+deepseek = LLM(model="ollama/deepseek-r1:latest", base_url="http://localhost:11434")
 
 @CrewBase
 class CurrencyAuditCrew():
