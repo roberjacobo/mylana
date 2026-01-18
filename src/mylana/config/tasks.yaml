@@ -1,9 +1,9 @@
-currency_audit_task:
+get_rate_task:
   description: >
-    Analyze the current USD/MXN rate for {current_year}. Explain why the
-    received payment reflects a specific amount, accounting for market
-    trends and banking commissions.
+    1. Search Google/DuckDuckGo for "1 USD to MXN rate".
+    2. Extract the numeric exchange rate (e.g., 20.50) and the date associated with it.
+    3. Do NOT search for bank comparisons or commissions this time. Focus ONLY on the market rate.
+    4. Provide the answer immediately.
   expected_output: >
-    A concise 10-point bulleted list in Spanish explaining the current rate
-    and justifying the transaction costs.
-  agent: financial_analyst
+    A single line string in this format: "Date: [Date Found] | Rate: [Number] MXN"
+  agent: currency_reporter

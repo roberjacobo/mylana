@@ -9,10 +9,14 @@ def run():
     """
     Run the crew to audit a specific payment.
     """
+
+    now = datetime.now()
+    formatted_date = now.strftime("%Y-%m-%d %H:%M:%S")
+
     inputs = {
         'amount_received': '3000',
         'currency': 'USD',
-        'current_year': str(datetime.now().year)
+        'current_date': formatted_date
     }
 
     try:

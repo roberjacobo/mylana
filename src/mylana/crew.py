@@ -1,9 +1,8 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.llm import LLM
 from crewai.project import CrewBase, agent, crew, task
-from crewai.agents.agent_builder.base_agent import BaseAgent
-from typing import List, Dict, Any
 from dotenv import load_dotenv
+from mylana.tools.duckduckGoSearch_tool import SearchTool
 
 load_dotenv()
 
@@ -12,25 +11,24 @@ deepseek = LLM(model="ollama/deepseek-r1:latest", base_url="http://localhost:114
 @CrewBase
 class CurrencyAuditCrew():
     """Crew for auditing USD/MXN exchange rates and payments"""
-
-    # Define path constants to help the decorator and the linter
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
     @agent
-    def financial_analyst(self) -> Agent:
+    def currency_reporter(self) -> Agent:
         """Expert in currency exchange and banking fees"""
         return Agent(
-            config=self.agents_config['financial_analyst'], # type: ignore
+            config=self.agents_config['currency_reporter'], # type: ignore
             verbose=True,
-            llm = deepseek
+            llm = deepseek,
+            tools=[SearchTool()]
         )
 
     @task
-    def currency_audit_task(self) -> Task:
+    def get_rate_task(self) -> Task:
         """Task to analyze rates and explain transaction costs"""
         return Task(
-            config=self.tasks_config['currency_audit_task'], # type: ignore
+            config=self.tasks_config['get_rate_task'], # type: ignore
         )
 
     @crew
