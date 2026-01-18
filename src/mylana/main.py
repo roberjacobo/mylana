@@ -9,13 +9,20 @@ load_dotenv()
 
 AMOUNT = os.getenv('AMOUNT')
 
+if not AMOUNT:
+    raise ValueError(
+        "AMOUNT environment variable is required. "
+        "Please set it in your .env file (e.g., AMOUNT=1000)"
+    )
+
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 def run():
     """
     Run the crew to audit a specific payment.
     """
-
+    print(f"\n💰 Processing payment: ${AMOUNT} USD\n")
+    
     now = datetime.now()
     formatted_date = now.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -26,7 +33,9 @@ def run():
     }
 
     try:
-        CurrencyAuditCrew().crew().kickoff(inputs=inputs)
+        result = CurrencyAuditCrew().crew().kickoff(inputs=inputs)
+        print("\n✅ Conversion completed successfully!\n")
+        return result
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 

@@ -1,11 +1,22 @@
 get_rate_task:
   description: >
-    Use the Exchange Rate API tool to get the current USD to MXN exchange rate.
-    Simply call the tool with base_currency="USD" and target_currency="MXN".
-    The tool will return real-time data with the exact rate and timestamp.
-    Extract the exchange rate number from the tool's output.
+    You have received a payment of {amount_received} {currency}.
+    Your job is to:
+    1. Use the Exchange Rate API tool to get the current USD to MXN exchange rate
+    2. Call the tool with base_currency="USD" and target_currency="MXN"
+    3. Extract the exchange rate number from the tool's output
+    4. Calculate the equivalent amount in MXN by multiplying {amount_received} by the exchange rate
+    5. Provide both the exchange rate and the converted amount
   expected_output: >
-    A single line with the current exchange rate in this exact format:
-    "Date: YYYY-MM-DD | Rate: [Number] MXN per 1 USD"
-    Example: "Date: 2024-01-15 | Rate: 17.65 MXN per 1 USD"
+    A clear report with the following information:
+    - Date: YYYY-MM-DD
+    - Exchange Rate: [Number] MXN per 1 USD
+    - Amount Received: {amount_received} USD
+    - Converted Amount: [Calculated Amount] MXN
+    
+    Example:
+    "Date: YYYY-MM-DD
+    Exchange Rate: XX.XX MXN per 1 USD
+    Amount Received: XXXX USD
+    Converted Amount: XXXXX.XX MXN"
   agent: currency_reporter
