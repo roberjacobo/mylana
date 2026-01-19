@@ -15,7 +15,7 @@ base_url = os.getenv('BASE_OLLAMA_URL')
 if not llm_model or not base_url:
     raise ValueError("Missing required environmet variables: llm_model or base_url")
 
-llm = LLM(model=llm_model, base_url=base_url)
+llm = LLM(model=llm_model, base_url=base_url, temperature=0.1)
 
 @CrewBase
 class CurrencyAuditCrew():
@@ -56,7 +56,7 @@ class CurrencyAuditCrew():
         return Task(
             config=self.tasks_config['debt_settlement_task'], # type: ignore
             context=[self.get_rate_task()], # type: ignore
-            output_file='output.md'
+            output_file='outputs/output.md'
         )
 
     @crew

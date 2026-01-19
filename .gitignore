@@ -210,3 +210,4 @@ __marimo__/
 
 # Database files with sensitive financial data
 db/expenses.json
+outputs/*
