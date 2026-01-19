@@ -13,10 +13,38 @@ get_rate_task:
     - Exchange Rate: [Number] MXN per 1 USD
     - Amount Received: {amount_received} USD
     - Converted Amount: [Calculated Amount] MXN
-    
+
     Example:
     "Date: YYYY-MM-DD
     Exchange Rate: XX.XX MXN per 1 USD
     Amount Received: XXXX USD
     Converted Amount: XXXXX.XX MXN"
   agent: currency_reporter
+
+debt_settlement_task:
+  description: >
+    Using the "Converted Amount" calculated in the previous step, determine
+    the net remaining balance after all financial obligations.
+    Your job is to:
+    1. Use the Finance Data Manager tool (FinanceJSONTool) to retrieve all
+       categories of expenses (fixed_expenses, credit_cards, and debts).
+    2. Sum the total amount of all expenses found in the JSON file (db/expenses.json).
+    3. Subtract this total sum from the "Converted Amount" provided by the
+       Currency Exchange Rate Analyst.
+    4. Provide a detailed breakdown of total income, total expenses, and the
+       final remaining balance in MXN.
+  expected_output: >
+    A financial summary report including:
+    - Initial Income (Converted Amount): [Number] MXN
+    - Total Fixed Expenses: [Sum] MXN
+    - Total Credit Card Payments: [Sum] MXN
+    - Total Debt Payments: [Sum] MXN
+    - Total Monthly Expenses: [Total Sum] MXN
+    - FINAL REMAINING BALANCE: [Income - Expenses] MXN
+
+    Example:
+    "Initial Income: 50,000.00 MXN
+    Total Expenses: 32,500.00 MXN
+    ---------------------------
+    REMAINING BALANCE: 17,500.00 MXN"
+  agent: personal_finance_manager

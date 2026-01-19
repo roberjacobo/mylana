@@ -3,7 +3,9 @@ from crewai import Agent, Crew, Process, Task
 from crewai.llm import LLM
 from crewai.project import CrewBase, agent, crew, task
 from dotenv import load_dotenv
+# Tools
 from mylana.tools.exchange_rate_tool import ExchangeRateTool
+from mylana.tools.finance_data_loader import FinanceJSONTool
 
 load_dotenv()
 
@@ -31,11 +33,30 @@ class CurrencyAuditCrew():
             tools=[ExchangeRateTool()]
         )
 
+    @agent
+    def personal_finance_manager(self) -> Agent:
+        """Agente encargado de gestionar los gastos y el balance final"""
+        return Agent(
+            config=self.agents_config['personal_finance_manager'], # type: ignore
+            verbose=True,
+            llm=llm,
+            tools=[FinanceJSONTool()]
+            )
+
     @task
     def get_rate_task(self) -> Task:
         """Task to analyze rates and explain transaction costs"""
         return Task(
             config=self.tasks_config['get_rate_task'], # type: ignore
+        )
+
+    @task
+    def debt_settlement_task(self) -> Task:
+        """Tarea para calcular el remanente después de deudas y gastos fijos"""
+        return Task(
+            config=self.tasks_config['debt_settlement_task'], # type: ignore
+            context=[self.get_rate_task()], # type: ignore
+            output_file='output.md'
         )
 
     @crew
@@ -47,5 +68,5 @@ class CurrencyAuditCrew():
             process=Process.sequential,
             verbose=True,
             tracing=True,
-            planning=False
+            planning=False,
         )
