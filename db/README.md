@@ -7,8 +7,7 @@ This directory contains financial data for the personal finance management syste
 ```
 db/
 ├── README.md                  # This file
-├── expenses.example.json      # Example structure (safe to commit)
-└── expenses.json             # Your actual data (ignored by git)
+└── db/expenses.json           # Your actual data (ignored by git)
 ```
 
 ## Setup
