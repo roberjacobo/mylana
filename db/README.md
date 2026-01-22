@@ -31,6 +31,7 @@ Monthly recurring expenses that don't change much:
 - Utilities (electricity, water, internet, phone)
 - Subscriptions (gym, streaming services, etc.)
 
+**Structure:**
 ```json
 {
   "name": "Expense Name",
@@ -40,9 +41,36 @@ Monthly recurring expenses that don't change much:
 }
 ```
 
+**Example:**
+```json
+{
+  "fixed_expenses": [
+    {
+      "name": "Apartment Rent",
+      "amount": 8500.00,
+      "due_date": "01",
+      "category": "housing"
+    },
+    {
+      "name": "Internet Service",
+      "amount": 650.00,
+      "due_date": "15",
+      "category": "utilities"
+    },
+    {
+      "name": "Gym Membership",
+      "amount": 450.00,
+      "due_date": "20",
+      "category": "subscriptions"
+    }
+  ]
+}
+```
+
 ### 2. Credit Cards
 Credit card balances and minimum payments:
 
+**Structure:**
 ```json
 {
   "name": "Card Name",
@@ -54,9 +82,34 @@ Credit card balances and minimum payments:
 }
 ```
 
+**Example:**
+```json
+{
+  "credit_cards": [
+    {
+      "name": "Visa Classic",
+      "balance": 12500.00,
+      "minimum_payment": 375.00,
+      "interest_rate": 0.24,
+      "due_date": "25",
+      "bank": "Banco Ejemplo"
+    },
+    {
+      "name": "MasterCard Gold",
+      "balance": 8750.00,
+      "minimum_payment": 262.50,
+      "interest_rate": 0.28,
+      "due_date": "10",
+      "bank": "Banco Nacional"
+    }
+  ]
+}
+```
+
 ### 3. Debts
 Long-term debts and loans:
 
+**Structure:**
 ```json
 {
   "name": "Loan Name",
@@ -66,6 +119,76 @@ Long-term debts and loans:
   "interest_rate": 0.0,
   "due_date": "DD",
   "creditor": "Creditor Name"
+}
+```
+
+**Example:**
+```json
+{
+  "debts": [
+    {
+      "name": "Car Loan",
+      "total_debt": 185000.00,
+      "monthly_payment": 3850.00,
+      "remaining_months": 48,
+      "interest_rate": 0.12,
+      "due_date": "05",
+      "creditor": "Auto Finance SA"
+    },
+    {
+      "name": "Personal Loan",
+      "total_debt": 45000.00,
+      "monthly_payment": 2250.00,
+      "remaining_months": 20,
+      "interest_rate": 0.18,
+      "due_date": "12",
+      "creditor": "Banco Personal"
+    }
+  ]
+}
+```
+
+## Complete File Example
+
+Here's what a complete `expenses.json` file would look like:
+
+```json
+{
+  "fixed_expenses": [
+    {
+      "name": "Apartment Rent",
+      "amount": 8500.00,
+      "due_date": "01",
+      "category": "housing"
+    },
+    {
+      "name": "Internet Service",
+      "amount": 650.00,
+      "due_date": "15",
+      "category": "utilities"
+    }
+  ],
+  "credit_cards": [
+    {
+      "name": "Visa Classic",
+      "balance": 12500.00,
+      "minimum_payment": 375.00,
+      "interest_rate": 0.24,
+      "due_date": "25",
+      "bank": "Banco Ejemplo"
+    }
+  ],
+  "debts": [
+    {
+      "name": "Car Loan",
+      "total_debt": 185000.00,
+      "monthly_payment": 3850.00,
+      "remaining_months": 48,
+      "interest_rate": 0.12,
+      "due_date": "05",
+      "creditor": "Auto Finance SA"
+    }
+  ]
 }
 ```
 
