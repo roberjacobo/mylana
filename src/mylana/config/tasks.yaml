@@ -26,7 +26,7 @@ debt_settlement_task:
     Using the "Converted Amount" calculated in the previous step, determine
     the net remaining balance after all financial obligations.
     Your job is to:
-    1. Use the Finance Data Manager tool (FinanceJSONTool) to retrieve all
+    1. Use the Finance Data Manager tool [FinanceJSONTool] to retrieve all
        categories of expenses (fixed_expenses, credit_cards, and debts).
     2. Sum the total amount of all expenses found in the JSON file (db/expenses.json).
     3. Subtract this total sum from the "Converted Amount" provided by the
@@ -43,8 +43,8 @@ debt_settlement_task:
     - FINAL REMAINING BALANCE: [Income - Expenses] MXN
 
     Example:
-    "Initial Income: 50,000.00 MXN
-    Total Expenses: 32,500.00 MXN
+    "Initial Income: 10,000.00 MXN
+    Total Expenses: 4,500.00 MXN
     ---------------------------
-    REMAINING BALANCE: 17,500.00 MXN"
+    REMAINING BALANCE: 5,500.00 MXN"
   agent: personal_finance_manager
