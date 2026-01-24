@@ -71,8 +71,8 @@ User Input (AMOUNT in .env)
 
 - Financial data stored in `db/expenses.json` (gitignored) with three categories:
   - `fixed_expenses`: Monthly bills (uses `amount` field)
-  - `credit_cards`: Card balances (uses `minimum_payment` field)
-  - `debts`: Loans (uses `monthly_payment` field)
+  - `credit_cards`: Card balances (uses `balance` and `interest_rate` fields)
+  - `debts`: Loans (uses `total_remaining` and `monthly_payment` fields)
 - All amounts are in MXN
 
 ## Environment Variables

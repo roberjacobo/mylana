@@ -51,50 +51,40 @@ debt_settlement_task:
 
 debt_analysis_and_strategy_task:
   description: >
-    Use the "Finance Data Manager" tool to retrieve debt data. Call it with
-    category="all" and file_path="db/expenses.json".
+    STEP 1: Call "Finance Data Manager" tool with category="all" to get debt data.
+    STEP 2: After getting the data, analyze it yourself (no more tool calls needed).
 
-    Your job is to:
-    1. Call the "Finance Data Manager" tool to get financial data.
-    2. Extract 'debts' and 'credit_cards' from the returned JSON.
-       - Credit cards: use 'balance' as debt amount, 'interest_rate' or 'cat' for rate
-       - Debts: use 'total_remaining' as balance (no interest rate available)
-    3. Perform BOTH analyses:
-       a) Debt Snowball: Rank from smallest to largest balance
-       b) Debt Avalanche: Rank from highest to lowest interest rate
-    4. For each method, calculate:
-       - Order of payoff
-       - Estimated total interest paid
-       - Months to become debt-free
-    5. Compare both methods and recommend the most suitable one based on:
-       - User's available cash flow (Remaining Balance from previous task)
-       - Interest rate differences between debts
-       - Psychological benefit of quick wins vs mathematical savings
-    6. Calculate estimated payoff date for the first priority debt if user
-       applies their remaining balance as extra payment.
-    7. Provide a step-by-step priority list with specific amounts.
+    From credit_cards, extract: name, balance, interest_rate (or cat).
+    From debts, extract: description, total_remaining.
+
+    STEP 3: Create two rankings:
+    - SNOWBALL: Sort all debts from smallest balance to largest
+    - AVALANCHE: Sort all debts from highest interest rate to lowest
+
+    STEP 4: Recommend which strategy is better and why.
+    Use the Remaining Balance from the previous task as extra payment amount.
+
+    STEP 5: Write your final answer with the debt list, both rankings, and your recommendation.
+    Do NOT output "Thought:" or "Action:" in your final answer - just provide the analysis directly.
   expected_output: >
-    A strategic debt elimination roadmap including:
-    - Debt Inventory: List all debts with balance and interest rate
-    - Snowball Analysis: Priority order, estimated months, total interest
-    - Avalanche Analysis: Priority order, estimated months, total interest
-    - RECOMMENDED STRATEGY: [Snowball / Avalanche] with clear reasoning
-    - Priority List:
-      1. [Debt Name] - Balance: $X, Rate: Y% - Extra payment target
-      2. [Debt Name] - Balance: $X, Rate: Y% - Pay minimum
-    - Monthly Acceleration: Extra cash to apply to priority #1
-    - Impact Projection: Time to clear first debt
+    DEBT INVENTORY:
+    1. [Name]: $[balance] MXN at [rate]% interest
+    2. [Name]: $[balance] MXN at [rate]% interest
+    (list all debts and credit cards)
 
-    Example:
-    "DEBT INVENTORY:
-    - Didi Card: $10,148 MXN at 68.4% interest
-    - Plata Card: $7,834 MXN at 18% interest
-    - Nu Bank: $5,825 MXN at 15% interest
+    SNOWBALL ORDER (smallest first):
+    1. [Name] - $[balance]
+    2. [Name] - $[balance]
 
-    SNOWBALL: Nu Bank → Plata → Didi (quick wins first)
-    AVALANCHE: Didi → Plata → Nu Bank (highest rate first)
+    AVALANCHE ORDER (highest rate first):
+    1. [Name] - [rate]%
+    2. [Name] - [rate]%
 
-    RECOMMENDED: Avalanche - Didi Card has 68.4% rate, must eliminate first
-    PRIORITY 1: Didi Card - Apply extra $2,000 MXN/month
-    ESTIMATED CLEARANCE: 4 months"
+    RECOMMENDED STRATEGY: [Snowball/Avalanche]
+    REASON: [Explain why this strategy is better for this situation]
+
+    ACTION PLAN:
+    - Extra monthly payment available: $[remaining balance] MXN
+    - First target: [Name]
+    - Estimated months to clear first debt: [X] months
   agent: debt_elimination_strategist
