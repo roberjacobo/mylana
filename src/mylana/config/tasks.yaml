@@ -51,32 +51,50 @@ debt_settlement_task:
 
 debt_analysis_and_strategy_task:
   description: >
-    Using the list of debts retrieved from the Finance Data Manager tool [FinanceJSONTool],
-    your job is to:
-    1. Extract all entries under the 'debts' and 'credit_cards' categories from the JSON data.
-    2. Perform a dual analysis:
-       a) Debt Snowball: Rank debts from smallest to largest balance.
-       b) Debt Avalanche: Rank debts from highest to lowest interest rate.
-    3. Compare both methods and recommend the most suitable one based on the user's
-       available cash flow (Remaining Balance) provided by the personal_finance_manager.
-    4. Calculate an estimated "debt-free date" for the first priority debt if the
-       user applies their remaining balance as an extra payment.
-    5. Provide a step-by-step priority list for the payments.
+    Use the "Finance Data Manager" tool to retrieve debt data. Call it with
+    category="all" and file_path="db/expenses.json".
+
+    Your job is to:
+    1. Call the "Finance Data Manager" tool to get financial data.
+    2. Extract 'debts' and 'credit_cards' from the returned JSON.
+       - Credit cards: use 'balance' as debt amount, 'interest_rate' or 'cat' for rate
+       - Debts: use 'total_remaining' as balance (no interest rate available)
+    3. Perform BOTH analyses:
+       a) Debt Snowball: Rank from smallest to largest balance
+       b) Debt Avalanche: Rank from highest to lowest interest rate
+    4. For each method, calculate:
+       - Order of payoff
+       - Estimated total interest paid
+       - Months to become debt-free
+    5. Compare both methods and recommend the most suitable one based on:
+       - User's available cash flow (Remaining Balance from previous task)
+       - Interest rate differences between debts
+       - Psychological benefit of quick wins vs mathematical savings
+    6. Calculate estimated payoff date for the first priority debt if user
+       applies their remaining balance as extra payment.
+    7. Provide a step-by-step priority list with specific amounts.
   expected_output: >
     A strategic debt elimination roadmap including:
-    - Debt Inventory: A list of all debts with their balances and interest rates.
-    - Recommended Strategy: [Snowball / Avalanche / Hybrid] and why.
+    - Debt Inventory: List all debts with balance and interest rate
+    - Snowball Analysis: Priority order, estimated months, total interest
+    - Avalanche Analysis: Priority order, estimated months, total interest
+    - RECOMMENDED STRATEGY: [Snowball / Avalanche] with clear reasoning
     - Priority List:
-      1. [Debt Name] - Target for extra payment.
-      2. [Debt Name] - Pay minimum.
-      ...
-    - Monthly Acceleration: Amount of extra cash to be applied to the first priority.
-    - Impact Projection: Estimated time to clear the first debt.
+      1. [Debt Name] - Balance: $X, Rate: Y% - Extra payment target
+      2. [Debt Name] - Balance: $X, Rate: Y% - Pay minimum
+    - Monthly Acceleration: Extra cash to apply to priority #1
+    - Impact Projection: Time to clear first debt
 
     Example:
-    "RECOMMENDED STRATEGY: Debt Avalanche (to save $X,XXX in interest)
-    PRIORITY 1: Credit Card A (24% APR) - Pay Minimum + $2,000 MXN
-    PRIORITY 2: Personal Loan (15% APR) - Pay Minimum
-    ---------------------------
-    ESTIMATED CLEARANCE DATE: 4 Months"
+    "DEBT INVENTORY:
+    - Didi Card: $10,148 MXN at 68.4% interest
+    - Plata Card: $7,834 MXN at 18% interest
+    - Nu Bank: $5,825 MXN at 15% interest
+
+    SNOWBALL: Nu Bank → Plata → Didi (quick wins first)
+    AVALANCHE: Didi → Plata → Nu Bank (highest rate first)
+
+    RECOMMENDED: Avalanche - Didi Card has 68.4% rate, must eliminate first
+    PRIORITY 1: Didi Card - Apply extra $2,000 MXN/month
+    ESTIMATED CLEARANCE: 4 months"
   agent: debt_elimination_strategist

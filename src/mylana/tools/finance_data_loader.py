@@ -18,9 +18,12 @@ class FinanceToolInput(BaseModel):
 class FinanceJSONTool(BaseTool):
     name: str = "Finance Data Manager"
     description: str = (
-        "Reads financial data from a JSON file. "
-        "Can filter by category (fixed_expenses, credit_cards, debts) "
-        "and provides raw data for the agent to calculate totals and balances."
+        "Reads financial data from db/expenses.json. "
+        "Categories: 'fixed_expenses', 'credit_cards', 'debts', 'streaming_services', or 'all'. "
+        "Credit cards: name, balance, interest_rate, cat (annual %), credit_limit, payment_due_date. "
+        "Debts: description, total_remaining, monthly_payment. "
+        "Fixed expenses/streaming: description, amount, due_date. "
+        "Use for expense calculations, balance analysis, and debt prioritization strategies."
     )
     args_schema: Type[BaseModel] = FinanceToolInput
 

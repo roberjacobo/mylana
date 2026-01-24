@@ -63,6 +63,9 @@ class CurrencyAuditCrew:
             verbose=True,
             llm=llm,
             tools=[FinanceJSONTool()],
+            max_iter=5,
+            early_stopping_method="force",
+            allow_delegation=False,
         )
 
     @task
